@@ -12,7 +12,7 @@ Lopt = S.Lopt;
 Sopt = S.Sopt;
 
 % call your solver to obtain (L, S)
-[X, L, S, Y, Z, err, iter] = admm_solver(X);
+%[X, L, S, Y, Z, err, iter] = admm_solver(X);
 
 fprintf('||L-Lopt||/||Lopt|| = %5.4e\n',norm(L-Lopt,'fro')/norm(Lopt,'fro'));
 fprintf('||S-Sopt||/||Sopt|| = %5.4e\n\n',norm(S-Sopt,'fro')/norm(Sopt,'fro'));
@@ -33,7 +33,7 @@ end
 
 % call your solver to obtain (L, S)
 
-[X, L, S, Y, Z, err, iter] = admm_solver(X);
+%[X, L, S, Y, Z, err, iter] = admm_solver(X);
 fprintf('See Output Images\n')
 
 % show a few slices
