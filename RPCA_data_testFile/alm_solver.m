@@ -17,7 +17,7 @@ function [X, L, S, Y, Z, err, iter] = alm_solver(X)
     
     iter = 0;
     err = 1e-7;
-    while err < tol
+    while err < tol || iter < 500
         iter = iter + 1;
         
         YL = L + ((tNot - 1) / t) * (L - LNot);
