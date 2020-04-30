@@ -1,25 +1,27 @@
-function [X, L, S, Y, Z, res, iter] = alm_solver(X)
+function [X, L, S, Y, Z, err, iter] = alm_solver(X)
 
     [r, c] = size(X);
     unobserved = isnan(X);
     lambda = 1 / sqrt(max(r, c));
-    eta = 0.9;
-    mu = 0.99 * norm(X);
-    mu_bar = 1e-9 * mu;
-    tol = 1e-4;
+    mu = 10 * lambda;
+    tol = 1e-6;
+    normX = norm(X, 'fro');
     L = zeros(r, c);
     LNot = zeros(r, c);
     S = zeros(r, c);
     SNot = zeros(r, c);
     Y = zeros(r, c);
+    k = 0;
     t = 1;
     tNot = 1;
     
     iter = 0;
-    res = 1;
-    err = 1;
-    while (res > tol || err > tol) && mu_bar < mu
-        iter = iter + 1;
+    err = 1e-7;
+    err2 = 1e-7;
+    stoppingCrit = 1e-7;
+    while stoppingCrit < tol
+        iter = iter + 1
+        
         YL = L + ((tNot - 1) / t) * (L - LNot);
         YS = S + ((tNot - 1) / t) * (S - SNot);
         GL = YL - 0.5 * (YL + YS - X);
@@ -30,11 +32,17 @@ function [X, L, S, Y, Z, res, iter] = alm_solver(X)
         S = So((lambda * mu) / 2, GS);
         tNot = t;
         t = (1 + sqrt((4 * (t^2)) + 1)) / 2;
-        mu = max(eta * mu, mu_bar);
+        mu = max((0.9 * mu), 0);
+        %mu = max(mu, 0);
         Z = X - L - S;
         Z(unobserved) = 0;
-        res = norm(Z, 'fro') / norm(X, 'fro');
-        err = max(mu, sqrt(mu)) * norm((S - SNot), 'fro') / norm(X, 'fro');
+        %err = norm(Z, 'fro') / normX;
+        %err2 = min(mu, sqrt(mu)) * norm((S - SNot), 'fro') / normX;
+        stoppingCritL = 2 * (YL - L) + (L + S - YL - YS);
+        stoppingCritS = 2 * (YS - S) + (L + S - YL - YS);
+        stoppingCrit = norm(sqrt(norm(stoppingCritL, 'fro')^2 + norm(stoppingCritS, 'fro')^2), )
+        
+        
     end
 
 end
