@@ -12,16 +12,18 @@ Lopt = S.Lopt;
 Sopt = S.Sopt;
 
 % call your solver to obtain (L, S)
-[X, L, S, Y, Z, err, iter] = admm_solver(X);
-%[X, L, S, Y, Z, err, iter] = alm_solver(X);
+[X, L, S, Y, Z, res, iter] = admm_solver(X);
+%[X, L, S, Y, Z, res, iter] = alm_solver(X);
 
 fprintf('||L-Lopt||/||Lopt|| = %5.4e\n',norm(L-Lopt,'fro')/norm(Lopt,'fro'));
 fprintf('||S-Sopt||/||Sopt|| = %5.4e\n\n',norm(S-Sopt,'fro')/norm(Sopt,'fro'));
+fprintf('Iterations: %d\n', iter);
+fprintf('Final residual: %5.4e\n', res);
 
 
-fprintf('\n -------------------- \n');
+fprintf('--------------------\n');
 %% test on the escalator data
-fprintf('\n \n Escalator Data Test\n');
+fprintf('Escalator Data Test\n');
 escalator = load('escalator_data.mat');
 M = escalator.M;
 % load escalator_data;
@@ -34,9 +36,11 @@ end
 
 % call your solver to obtain (L, S)
 
-[X, L, S, Y, Z, err, iter] = admm_solver(X);
-%[X, L, S, Y, Z, err, iter] = alm_solver(X);
+[X, L, S, Y, Z, res, iter] = admm_solver(X);
+%[X, L, S, Y, Z, res, iter] = alm_solver(X);
 fprintf('See Output Images\n')
+fprintf('Iterations: %d\n', iter);
+fprintf('Final residual: %5.4e\n', res);
 
 % show a few slices
 
