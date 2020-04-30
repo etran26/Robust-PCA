@@ -3,8 +3,8 @@ function [X, L, S, Y, Z, res, iter] = alm_solver(X)
     [r, c] = size(X);
     unobserved = isnan(X);
     lambda = 1 / sqrt(max(r, c));
-    eta = 0.9;
-    mu = 0.99 * norm(X);
+    eta = 0.99;
+    mu = * norm(X);
     mu_bar = 1e-9 * mu;
     tol = 1e-4;
     L = zeros(r, c);
@@ -17,8 +17,7 @@ function [X, L, S, Y, Z, res, iter] = alm_solver(X)
     
     iter = 0;
     res = 1;
-    err = 1;
-    while (res > tol || err > tol) && mu_bar < mu
+    while res > tol
         iter = iter + 1;
         YL = L + ((tNot - 1) / t) * (L - LNot);
         YS = S + ((tNot - 1) / t) * (S - SNot);
@@ -30,11 +29,12 @@ function [X, L, S, Y, Z, res, iter] = alm_solver(X)
         S = So((lambda * mu) / 2, GS);
         tNot = t;
         t = (1 + sqrt((4 * (t^2)) + 1)) / 2;
-        mu = max(eta * mu, mu_bar);
+        mu = max(.99 * mu, 0);
+        %mu = max(mu, 0);
         Z = X - L - S;
         Z(unobserved) = 0;
         res = norm(Z, 'fro') / norm(X, 'fro');
-        err = max(mu, sqrt(mu)) * norm((S - SNot), 'fro') / norm(X, 'fro');
+        
     end
 
 end
