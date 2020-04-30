@@ -1,4 +1,4 @@
-function [X, L, S, Y, Z, res, iter] = alm_solver(X)
+function [X, L, S, Y, Z, res, iter] = penalty_solver(X)
 
     [r, c] = size(X);
     unobserved = isnan(X);
