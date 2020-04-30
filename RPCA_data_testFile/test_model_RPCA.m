@@ -12,11 +12,13 @@ Lopt = S.Lopt;
 Sopt = S.Sopt;
 
 % call your solver to obtain (L, S)
-[X, L, S, Y, Z, res, iter] = admm_solver(X);
-% [X, L, S, Y, Z, res, iter] = alm_solver(X);
-
+tic;
+%[X, L, S, Y, Z, res, iter] = admm_solver(X);
+[X, L, S, Y, Z, res, iter] = penalty_solver(X);
+toc;
 fprintf('||L-Lopt||/||Lopt|| = %5.4e\n',norm(L-Lopt,'fro')/norm(Lopt,'fro'));
 fprintf('||S-Sopt||/||Sopt|| = %5.4e\n\n',norm(S-Sopt,'fro')/norm(Sopt,'fro'));
+fprintf('Elapsed Time: %f seconds\n', toc);
 fprintf('Iterations: %d\n', iter);
 fprintf('Final residual: %5.4e\n', res);
 
@@ -35,10 +37,12 @@ for i = 1:p
 end
 
 % call your solver to obtain (L, S)
-
-[X, L, S, Y, Z, res, iter] = admm_solver(X);
-%[X, L, S, Y, Z, res, iter] = alm_solver(X);
+tic;
+%[X, L, S, Y, Z, res, iter] = admm_solver(X);
+[X, L, S, Y, Z, res, iter] = penalty_solver(X);
+toc;
 fprintf('See Output Images\n')
+fprintf('Elapsed Time: %f seconds\n', toc);
 fprintf('Iterations: %d\n', iter);
 fprintf('Final residual: %5.4e\n', res);
 
