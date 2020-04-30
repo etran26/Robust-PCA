@@ -4,8 +4,8 @@ function [X, L, S, Y, Z, res, iter] = admm_solver(X)
     unobserved = isnan(X);
     X(unobserved) = 0;
     lambda = 1 / sqrt(max(r, c));
-    eta = 0.9;
-    mu = 0.99 * norm(X);
+    eta = 0.99;
+    mu = norm(X);
     mu_bar = 1e-9 * mu;
     tol = 1e-6;
     L = zeros(r, c);
@@ -14,7 +14,7 @@ function [X, L, S, Y, Z, res, iter] = admm_solver(X)
 
     iter = 0;
     res = 1;
-    while res > tol && mu_bar < mu
+    while res > tol
         iter = iter + 1;
         L = Do(1 / mu, X - S + (1 / mu) * Y);
         S = So(lambda / mu, X - L + (1 / mu) * Y);
@@ -22,7 +22,7 @@ function [X, L, S, Y, Z, res, iter] = admm_solver(X)
         Z(unobserved) = 0;
         Y = Y + mu * Z;
         res = norm(Z, 'fro') / norm(X, 'fro');
-        mu = max(eta * mu, mu_bar);
+        % mu = max(eta * mu, mu_bar);
     end
 
 end
