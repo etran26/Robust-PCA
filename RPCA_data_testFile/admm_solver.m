@@ -1,4 +1,4 @@
-function [X, L, S, Y, Z, res, iter] = admm_solver(X)
+function [X, L, S, Y, Z, res, iter, objs, cv] = admm_solver(X)
 
     [r, c] = size(X);
     unobserved = isnan(X);
@@ -9,7 +9,8 @@ function [X, L, S, Y, Z, res, iter] = admm_solver(X)
     L = zeros(r, c);
     S = zeros(r, c);
     Y = zeros(r, c);
-
+    objs = [Obj(L,S, lambda)];
+    cv = [1];
     iter = 0;
     res = 1;
     while res > tol
@@ -21,6 +22,8 @@ function [X, L, S, Y, Z, res, iter] = admm_solver(X)
         Y = Y + mu * Z;
         res = norm(Z, 'fro') / norm(X, 'fro');
         % mu = max(eta * mu, mu_bar);
+        objs = [objs; Obj(L,S,lambda)];
+        cv = [cv; res];
     end
 
 end
@@ -34,4 +37,8 @@ function r = Do(tau, X)
     % shrinkage operator for singular values
     [U, S, V] = svd(X, 'econ');
     r = U*So(tau, S)*V';
+end
+
+function r = Obj(L, S, lambda)
+    r = norm(svd(L),1) + lambda * norm(S,1);
 end

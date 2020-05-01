@@ -1,4 +1,4 @@
-function [X, L, S, Y, Z, res, iter, objs, cv] = penalty_solver(X)
+function [X, L, S, Y, Z, res, iter] = penalty_solver(X)
 
     [r, c] = size(X);
     unobserved = isnan(X);
@@ -13,8 +13,6 @@ function [X, L, S, Y, Z, res, iter, objs, cv] = penalty_solver(X)
     SNot = zeros(r, c);
     Y = zeros(r, c);
     t = 1;
-    objs = [Obj(L,S, lambda)];
-    cv = [1];
     tNot = 1;
     
     iter = 0;
@@ -37,8 +35,6 @@ function [X, L, S, Y, Z, res, iter, objs, cv] = penalty_solver(X)
         Z(unobserved) = 0;
         res = norm(Z, 'fro') / norm(X, 'fro');
         err = max(mu, sqrt(mu)) * norm((S - SNot), 'fro') / norm(X, 'fro');
-        objs = [objs; Obj(L,S,lambda)];
-        cv = [cv; res];
     end
 
 end
@@ -54,7 +50,6 @@ function r = Do(tau, X)
     r = U*So(tau, S)*V';
 end
 
-function r = Obj(L, S, lambda)
-    r = norm(svd(L),1) + lambda * norm(S,1);
+function r = 
 end
 
