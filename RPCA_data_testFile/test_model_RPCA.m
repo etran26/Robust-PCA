@@ -15,10 +15,10 @@ Sopt = S.Sopt;
 % call your solver to obtain (L, S)
 tic;
 [X, L, S, Y, Z, res, iter, objs, cv] = penalty_solver(X);
-toc;
+timeVal = toc;
 fprintf('||L-Lopt||/||Lopt|| = %5.4e\n',norm(L-Lopt,'fro')/norm(Lopt,'fro'));
 fprintf('||S-Sopt||/||Sopt|| = %5.4e\n\n',norm(S-Sopt,'fro')/norm(Sopt,'fro'));
-fprintf('Elapsed Time: %f seconds\n', toc);
+fprintf('Elapsed Time: %f seconds\n', timeVal);
 fprintf('Iterations: %d\n', iter);
 fprintf('Final residual: %5.4e\n', res);
 
@@ -50,9 +50,9 @@ end
 % call your solver to obtain (L, S)
 tic;
 [X, L, S, Y, Z, res, iter, objs, cv] = penalty_solver(X);
-toc;
+timeVal = toc;
 fprintf('See Output Images\n')
-fprintf('Elapsed Time: %f seconds\n', toc);
+fprintf('Elapsed Time: %f seconds\n', timeVal);
 fprintf('Iterations: %d\n', iter);
 fprintf('Final residual: %5.4e\n', res);
 
@@ -108,10 +108,10 @@ Sopt = S.Sopt;
 
 tic;
 [X, L, S, Y, Z, res, iter, objs, cv] = admm_solver(X);
-toc;
+timeVal = toc;
 fprintf('||L-Lopt||/||Lopt|| = %5.4e\n',norm(L-Lopt,'fro')/norm(Lopt,'fro'));
 fprintf('||S-Sopt||/||Sopt|| = %5.4e\n\n',norm(S-Sopt,'fro')/norm(Sopt,'fro'));
-fprintf('Elapsed Time: %f seconds\n', toc);
+fprintf('Elapsed Time: %f seconds\n', timeVal);
 fprintf('Iterations: %d\n', iter);
 fprintf('Final residual: %5.4e\n', res);
 fig3 = figure('papersize',[5,4],'paperposition',[0,0,5,4]);
@@ -142,9 +142,9 @@ end
 % call your solver to obtain (L, S)
 tic;
 [X, L, S, Y, Z, res, iter, objs, cv] = admm_solver(X);
-toc;
+timeVal = toc;
 fprintf('See Output Images\n')
-fprintf('Elapsed Time: %f seconds\n', toc);
+fprintf('Elapsed Time: %f seconds\n', timeVal);
 fprintf('Iterations: %d\n', iter);
 fprintf('Final residual: %5.4e\n', res);
 
